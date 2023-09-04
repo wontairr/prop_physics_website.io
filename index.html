@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta description="prop_physics_create Command Generator for Source Games">
+    <meta name="keywords" content="Source,Source Sdk, GMOD, prop_physics_create, prop, garry's mod, half-life 2, half life, Source Engine, Console, Command">
+    <meta name="author" content="Wontairr">
+    <title>prop_physics_website</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" type="image/jpg" href="favicon-32x32.png"/>
+
+</head>
+<body>
+    <audio id="clicksound">
+        <source src="clicksound.mp3" type="audio/mp3" preload="auto"/>
+        <source src="clicksound.ogg" type="audio/ogg" preload="auto"/>
+    </audio>
+    <audio id="copysound">
+        <source src="copysound.mp3" type="audio/mp3" preload="auto"/>
+        <source src="copysound.ogg" type="audio/ogg" preload="auto"/>
+    </audio>
+
+
+    <div id="glow-background-overlay">
+        
+    </div>
+    <header>
+        <span id="command-text">prop_physics_create props_c17/oildrum001_explosive.mdl</span>
+    </header>
+    <footer>
+        <span id="author">Made by Wontairr</span>
+    </footer>
+
+    <section>
+        <div class="wrapper">
+            <div id="outline"></div>
+            <div class="main-box">
+                <img src="barrel.png" class="preview-icon" id="normalIcon">
+                <img src="barreln.png" style="display:none;" class="preview-icon" id="normalIcon">
+                <img src="item_crate.png" style="display:none;" class="preview-icon" id="crateIcon">
+                <div class="dropdown">
+                    <button class="button-drop" onclick="showOptions()"><span id="button-text"><i>Select</i></span></button>
+                    <div class="dropdown-options" id="drop-opt">
+                        <button class="button-dropdown" id="explosive-barrel"><span class="button-textdrop">Explosive Barrel</span></button>
+                        <button class="button-dropdown" id="barrel"><span class="button-textdrop">Barrel</span></button>
+                        <button class="button-dropdown" id="crate"><span class="button-textdrop">Crate</span></button>                   
+                    </div>
+                </div>
+                <button class="copy-button" onclick="copyCommand()"><img src="icons8-copy-100.png" alt="copy" id="copy-icon"></button>
+            </div>
+        </div>
+    </section>
+    <script>
+        const b1 = document.getElementById("explosive-barrel");
+        const b2 = document.getElementById("barrel");
+        const b3 = document.getElementById("crate");
+        const x = document.getElementById("drop-opt");
+        const audio = document.getElementById("clicksound");
+        const audio2 = document.getElementById("copysound");
+
+        const copyIcon = document.getElementById("copy-icon");
+        const commandText = document.getElementById("command-text");
+        const overlay = document.getElementById("glow-background-overlay");
+
+        var currentProp = "props_c17/oildrum001_explosive.mdl";
+        function getCommand() { return "prop_physics_create " + currentProp;}
+
+        function timeOut(time, func){
+            setTimeout(func, time * 1000);
+        }
+
+        function copyCommand(){ 
+            navigator.clipboard.writeText(getCommand());
+
+            audio2.load();
+            audio2.play();
+            copyIcon.style.transform = "scale(85%,85%)";
+            overlay.style.backgroundColor= "rgba(190, 255, 255, 0.126)";
+
+            timeOut(0.05, function(){
+                copyIcon.style.transform = "scale(100%,100%)";
+            });
+
+            timeOut(0.25, function(){
+                overlay.style.backgroundColor = "rgba(255, 255, 255, 0.06)";
+            });
+        }
+
+        function setCurrentProp(prop){
+            var previewicons = document.getElementsByClassName("preview-icon")
+            for (let i = 0; i < previewicons.length; i++) {
+                const element = previewicons[i];
+                if(element.getAttribute("src") == "barreln.png" && prop == "barrel"){ 
+                    element.style.display = "block"; 
+                    currentProp = "props_c17/oildrum001.mdl";
+                } else if(element.getAttribute("src") == "barrel.png" && prop == "explosive-barrel") {
+                    element.style.display = "block"; 
+                    currentProp = "props_c17/oildrum001_explosive.mdl";
+                } else if(element.getAttribute("src") == "item_crate.png" && prop == "crate") {
+                    element.style.display = "block"; 
+                    currentProp = "props_junk/wood_crate001a.mdl"; 
+                } else {
+                    element.style.display = "none";
+                }
+
+            }
+            commandText.textContent = getCommand();
+            if(x.style.display=="block"){
+                x.style.display="none"
+            } else {
+                x.style.display="block"
+            }
+            audio.load();
+            audio.play();
+            console.log("ran" + prop);
+        }
+
+        b1.addEventListener("click", function() {
+        setCurrentProp("explosive-barrel");
+        });
+        b2.addEventListener("click", function() {
+            setCurrentProp("barrel");
+        });
+        b3.addEventListener("click", function() {
+            setCurrentProp("crate");
+        });
+
+        function showOptions(){
+            console.log("test")
+            let droppedbuttonsText = document.getElementsByClassName("button-textdrop")
+            let droppedbuttons = document.getElementsByClassName("button-dropdown")
+            audio.load();
+            audio.play();
+
+            for (let i = 0; i < droppedbuttonsText.length; i++) {
+                const element = droppedbuttonsText[i];
+                var size = 30;
+                var height = 35;
+                var marginBottom = 1;
+                element.style.height = height + "px";
+                size = size - Math.round(element.textContent.length / 1.5);
+                console.log(element.textContent.length);
+
+                var fontSizeString = size + "px";
+                element.style.fontSize = fontSizeString;
+            }
+
+            if(x.style.display=="block"){
+                x.style.display="none"
+            } else {
+                x.style.display="block"
+            }
+        }
+
+
+    </script>
+</body>
+</html>
